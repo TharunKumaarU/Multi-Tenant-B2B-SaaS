@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 760" width="1280" height="760" font-family="Inter, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Multi-tenant B2B SaaS — reference architecture</title>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#475467"/>
+    </marker>
+    <style>
+      .zone-title { font-size: 15px; font-weight: 700; letter-spacing: .04em; }
+      .box { fill: #ffffff; stroke-width: 1.5; }
+      .t { font-size: 15px; font-weight: 600; fill: #101828; text-anchor: middle; }
+      .s { font-size: 12px; fill: #475467; text-anchor: middle; }
+      .lbl { font-size: 12px; fill: #344054; font-weight: 600; }
+      .line { stroke: #475467; stroke-width: 1.6; fill: none; marker-end: url(#arr); }
+    </style>
+  </defs>
+
+  <rect width="1280" height="760" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="40" y="44" font-size="24" font-weight="700" fill="#101828">Multi-Tenant B2B SaaS — reference architecture</text>
+  <text x="40" y="68" font-size="14" fill="#475467">Modular monolith · FastAPI + PostgreSQL + React + Flutter · one VM with Docker Compose</text>
+
+  <!-- ===== Zones ===== -->
+  <rect x="30" y="90" width="230" height="440" rx="14" fill="#EEF4FF" stroke="#3B6FD8" stroke-width="1.2"/>
+  <text x="50" y="118" class="zone-title" fill="#2B55B0">CLIENTS</text>
+
+  <rect x="490" y="90" width="400" height="440" rx="14" fill="#ECF8F1" stroke="#2E9E62" stroke-width="1.2"/>
+  <text x="510" y="118" class="zone-title" fill="#1F7A4A">API · MODULAR MONOLITH</text>
+
+  <rect x="940" y="90" width="310" height="440" rx="14" fill="#FFF6E5" stroke="#D08A17" stroke-width="1.2"/>
+  <text x="960" y="118" class="zone-title" fill="#A36A0C">DATA &amp; BACKGROUND</text>
+
+  <rect x="490" y="580" width="760" height="150" rx="14" fill="#F4EEFF" stroke="#7B55D6" stroke-width="1.2"/>
+  <text x="510" y="608" class="zone-title" fill="#5B3BB0">EXTERNAL PROVIDERS</text>
+
+  <!-- ===== Clients ===== -->
+  <rect x="50" y="140" width="190" height="70" rx="10" class="box" stroke="#3B6FD8"/>
+  <text x="145" y="170" class="t">Platform console</text>
+  <text x="145" y="190" class="s">React · your operators</text>
+
+  <rect x="50" y="260" width="190" height="70" rx="10" class="box" stroke="#3B6FD8"/>
+  <text x="145" y="290" class="t">Tenant web app</text>
+  <text x="145" y="310" class="s">React · customer admins</text>
+
+  <rect x="50" y="380" width="190" height="70" rx="10" class="box" stroke="#3B6FD8"/>
+  <text x="145" y="410" class="t">Mobile app</text>
+  <text x="145" y="430" class="s">Flutter · field staff</text>
+
+  <!-- ===== Edge ===== -->
+  <rect x="310" y="250" width="130" height="90" rx="10" fill="#F2F4F7" stroke="#667085" stroke-width="1.5"/>
+  <text x="375" y="285" class="t">Reverse</text>
+  <text x="375" y="303" class="t">proxy</text>
+  <text x="375" y="323" class="s">TLS termination</text>
+
+  <!-- ===== API ===== -->
+  <rect x="510" y="140" width="360" height="62" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="690" y="166" class="t">Auth + tenant context</text>
+  <text x="690" y="186" class="s">verified token → tenant_id → SET LOCAL on DB session</text>
+
+  <rect x="510" y="232" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="565" y="258" class="t">Tenancy</text>
+  <text x="565" y="277" class="s">tenants · plans</text>
+
+  <rect x="635" y="232" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="690" y="258" class="t">Roles</text>
+  <text x="690" y="277" class="s">permissions</text>
+
+  <rect x="760" y="232" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="815" y="258" class="t">Workflows</text>
+  <text x="815" y="277" class="s">state machine</text>
+
+  <rect x="510" y="310" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="565" y="336" class="t">Billing</text>
+  <text x="565" y="355" class="s">idempotent</text>
+
+  <rect x="635" y="310" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="690" y="336" class="t">Notify</text>
+  <text x="690" y="355" class="s">writes outbox</text>
+
+  <rect x="760" y="310" width="110" height="60" rx="10" class="box" stroke="#2E9E62"/>
+  <text x="815" y="336" class="t">Files</text>
+  <text x="815" y="355" class="s">presign URLs</text>
+
+  <rect x="510" y="400" width="360" height="104" rx="10" fill="#DDF2E6" stroke="#2E9E62" stroke-width="1" stroke-dasharray="4 3"/>
+  <text x="690" y="426" class="t">One codebase · one deploy</text>
+  <text x="690" y="448" class="s">Clear module boundaries, shared DB session per request</text>
+  <text x="690" y="468" class="s">OpenAPI contract → typed React &amp; Flutter clients</text>
+  <text x="690" y="488" class="s">One error envelope with stable codes</text>
+
+  <!-- ===== Data ===== -->
+  <!-- PostgreSQL cylinder -->
+  <path d="M990,138 a105,16 0 0,0 210,0 v82 a105,16 0 0,1 -210,0 z" fill="#ffffff" stroke="#D08A17" stroke-width="1.5"/>
+  <ellipse cx="1095" cy="138" rx="105" ry="16" fill="#FFFBF2" stroke="#D08A17" stroke-width="1.5"/>
+  <text x="1095" y="180" class="t">PostgreSQL</text>
+  <text x="1095" y="200" class="s">tenant_id on every row</text>
+  <text x="1095" y="216" class="s">row-level security · outbox</text>
+
+  <rect x="960" y="282" width="270" height="60" rx="10" class="box" stroke="#D08A17"/>
+  <text x="1095" y="308" class="t">Worker</text>
+  <text x="1095" y="327" class="s">outbox · retries · scheduled jobs</text>
+
+  <rect x="960" y="422" width="200" height="70" rx="10" class="box" stroke="#D08A17"/>
+  <text x="1060" y="452" class="t">Object storage</text>
+  <text x="1060" y="472" class="s">private · {tenant_id}/… keys</text>
+
+  <!-- ===== External ===== -->
+  <rect x="640" y="626" width="220" height="70" rx="10" class="box" stroke="#7B55D6"/>
+  <text x="750" y="656" class="t">Payment provider</text>
+  <text x="750" y="676" class="s">subscriptions · payouts</text>
+
+  <rect x="980" y="626" width="250" height="70" rx="10" class="box" stroke="#7B55D6"/>
+  <text x="1105" y="656" class="t">Push &amp; email providers</text>
+  <text x="1105" y="676" class="s">mobile push · transactional mail</text>
+
+  <!-- ===== Key ideas ===== -->
+  <rect x="30" y="580" width="430" height="150" rx="14" fill="#F9FAFB" stroke="#D0D5DD" stroke-width="1.2"/>
+  <text x="50" y="608" class="zone-title" fill="#344054">KEY IDEAS</text>
+  <text x="50" y="636" font-size="13" fill="#344054">① Isolation in two layers: app scoping + PostgreSQL RLS</text>
+  <text x="50" y="660" font-size="13" fill="#344054">② Notifications leave via an outbox, never inline</text>
+  <text x="50" y="684" font-size="13" fill="#344054">③ Webhooks are idempotent; reconcile daily</text>
+  <text x="50" y="708" font-size="13" fill="#344054">④ Files never pass through the API — presigned URLs</text>
+
+  <!-- ===== Arrows ===== -->
+  <!-- clients → proxy -->
+  <path d="M240,175 L306,272" class="line"/>
+  <path d="M240,295 L306,295" class="line"/>
+  <path d="M240,415 L306,318" class="line"/>
+  <text x="258" y="286" class="lbl">HTTPS</text>
+
+  <!-- proxy → API -->
+  <path d="M440,295 L465,295 L465,171 L506,171" class="line"/>
+  <text x="458" y="238" class="lbl" text-anchor="end">/api/*</text>
+
+  <!-- auth → modules -->
+  <path d="M690,202 L690,228" class="line"/>
+
+  <!-- API → PostgreSQL -->
+  <path d="M870,171 L986,171" class="line"/>
+  <text x="896" y="162" class="lbl">SQL</text>
+
+  <!-- PostgreSQL → worker -->
+  <path d="M1095,238 L1095,278" class="line"/>
+  <text x="1105" y="263" class="lbl">poll outbox</text>
+
+  <!-- Files → object storage -->
+  <path d="M870,340 L915,340 L915,457 L956,457" class="line"/>
+  <text x="934" y="400" class="lbl" transform="rotate(-90 934 400)" text-anchor="middle">presigned</text>
+
+  <!-- worker → push/email -->
+  <path d="M1200,342 L1200,622" class="line"/>
+  <text x="1214" y="555" class="lbl" transform="rotate(-90 1214 555)" text-anchor="middle">deliver</text>
+
+  <!-- billing ↔ payment provider -->
+  <path d="M507,340 L478,340 L478,560 L750,560 L750,622" class="line" marker-start="url(#arr)"/>
+  <text x="500" y="550" class="lbl">create payment · webhooks</text>
+</svg>
